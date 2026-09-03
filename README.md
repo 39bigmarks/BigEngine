@@ -2,9 +2,9 @@
 BigEngine is a cross-platform, 2D and 3D game engine. A side project I'll hopefully finish one day.
 
 ## Features
-- Open Source: Change anything you like
-- Cross-platform: Windows, MacOS, Linux (More if you edit it yourself)
-- Visually-scripted: A unique take on visual coding inspired by Clickteam Fusion 2.5 and Scratch
+- Open Source: Change anything you like.
+- Cross-Platform: Windows, MacOS, Linux (More if you edit it yourself)
+- Visual Scripting: A unique take on visual coding inspired by Clickteam Fusion 2.5 and Scratch.
 - Customizable: Many different options to customize the look and feel of the editor.
 - Lightweight: No setup .msi, no required dependencies, no useless (AI) features. Instantly get it up and running.
 
@@ -16,4 +16,4 @@ To start using BigEngine, go to the Releases tab and download the latest zip, ex
 
 ---
 
-Thanks for checking it out.
+Thanks for checking it out :)
