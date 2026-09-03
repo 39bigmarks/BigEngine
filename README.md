@@ -13,4 +13,6 @@ BigEngine is a cross-platform, 2D and 3D game engine. A side project I'll hopefu
 To start using BigEngine, go to the Releases tab and download the latest zip, extract it, and open it up.
 ### Compilation steps coming later.
 
+---
+
 Thanks for checking it out.
