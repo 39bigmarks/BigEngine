@@ -1,5 +1,5 @@
 # BigEngine
-BigEngine is a cross-platform, 2D and 3D game engine written in C#. A side project I'll hopefully finish one day.
+BigEngine is a cross-platform, 2D and 3D game engine written in C# and Raylib. A side project I'll hopefully finish one day.
 
 ## Features
 - Open Source: Change anything you like.
