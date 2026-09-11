@@ -11,7 +11,7 @@ BigEngine is a cross-platform, 2D and 3D game engine written in C# and Raylib. A
 - Visual Scripting: A unique take on visual coding inspired by Clickteam Fusion 2.5 and Scratch.
 - Customizable: Many different options to customize the look and feel of the editor.
 - Lightweight: No setup .msi, no required dependencies, no useless (AI) features. Instantly get it up and running.
-- Natively supports assets from [Poly Haven](https://polyhaven.com/)
+- Natively supports assets from [Poly Haven](https://polyhaven.com/) (you should donate to them!)
 
 ## Setup Instructions
 ### Normal setup
