@@ -27,10 +27,10 @@
     <None Update="resources\models\suzanne.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="resources\shaders\default\frag.frag">
+    <None Update="resources\shaders\default\frag.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="resources\shaders\default\vert.vert">
+    <None Update="resources\shaders\default\vert.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
