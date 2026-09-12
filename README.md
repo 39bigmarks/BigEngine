@@ -25,3 +25,4 @@ Thanks for checking it out :)
 
 ### Footnotes
 This project was developed by a self-taught amateur. Expect bad code please.
+If you'd like to contribute, feel free! :)
