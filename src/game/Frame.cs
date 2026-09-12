@@ -1,16 +1,18 @@
-﻿using Object = BigEngine.Objects.Object;
+﻿using GameObject = BigEngine.Types.GameObject;
 using BigEngine.Engine;
 using Raylib_cs;
 using System.Numerics;
 
 namespace BigEngine.Game
 {
-    internal class Frame(string name, Color clearColor, List<Object> objects)
+    internal class Frame(string name, Color clearColor, List<GameObject> gameObjects)
     {
         public string Name = name;
         public Color clearColor = clearColor;
 
-        // camera at index 0 will be prioritized
+        public List<GameObject> gameObjects { get; private set; } = gameObjects;
+
+        // camera at index 0 will be prioritized (unless specified later)
         public List<Camera3D> cameras { get; private set; } = [
             new(){
                 Position = new(3, 3, 7),
@@ -20,28 +22,23 @@ namespace BigEngine.Game
                 FovY = 50f
             }
         ];
-        public List<Object> objects { get; private set; } = objects;
 
-        private List<Object> destroyQueue = [];
+        private List<GameObject> destroyQueue = [];
         
         public void Awake()
         {
-            for (int i = 0; i < objects.Count; i++)
+            for (int i = 0; i < gameObjects.Count; i++)
             {
-                if (objects[i].components.Count == 0) continue;
-
-                for (int j = 0; j < objects[i].components.Count; j++)
-                    objects[i].components[j].Awake();
+                for (int j = 0; j < gameObjects[i].components.Count; j++)
+                    gameObjects[i].components[j].Awake();
             }
         }
         public void Start()
         {
-            for (int i = 0; i < objects.Count; i++)
+            for (int i = 0; i < gameObjects.Count; i++)
             {
-                if (objects[i].components.Count == 0) continue;
-
-                for (int j = 0; j < objects[i].components.Count; j++)
-                    objects[i].components[j].Start();
+                for (int j = 0; j < gameObjects[i].components.Count; j++)
+                    gameObjects[i].components[j].Start();
             }
         }
         public void Update()
@@ -49,23 +46,21 @@ namespace BigEngine.Game
             if(destroyQueue.Count != 0)
                 for (int i = 0; i < destroyQueue.Count; i++)
                 {
-                    foreach (var component in destroyQueue[i].components)
-                        component.Unload();
 
-                    objects.Remove(destroyQueue[i]);
+                    gameObjects.Remove(destroyQueue[i]);
                 }
 
             if (cameras.Count > 0)
-                Renderer.Render(cameras[0], clearColor, objects);
+                Renderer.Render(cameras[0], clearColor, gameObjects);
             //else
             //{
             // throw some error
             //}
         }
         
-        public void CreateObject(Object obj)
+        public void CreateObject(GameObject obj)
         {
-            objects.Add(obj);
+            gameObjects.Add(obj);
         }
         public void CreateCamera(Camera3D camera, bool makePrimary = false)
         {
@@ -80,12 +75,9 @@ namespace BigEngine.Game
 
         public void Unload()
         {
-            for (int i = 0; i < objects.Count; i++)
+            for (int i = 0; i < gameObjects.Count; i++)
             {
-                if (objects[i].components.Count == 0) continue;
-
-                for (int j = 0; j < objects[i].components.Count; j++)
-                    objects[i].components[j].Unload();
+                gameObjects[i].Unload();
             }
         }
     }

@@ -1,30 +1,37 @@
 ﻿using Raylib_cs;
-using Object = BigEngine.Objects.Object;
-using Model = BigEngine.Objects.Model;
+using BigEngine.Types;
 
 namespace BigEngine.Engine
 {
     internal static class Renderer
     {
-        internal static void Render(Camera3D camera, Color clearColor, List<Object> objects)
+        //                                      turn into memory later
+        internal static Shader defaultShader = Raylib.LoadShader("resources/shaders/default/vert.glsl", "resources/shaders/default/frag.glsl");
+
+        public static Material GetDefaultMaterial()
+        {
+            var defaultMat = Raylib.LoadMaterialDefault();
+            defaultMat.Shader = defaultShader;
+            return defaultMat;
+        }
+
+        internal static void Render(Camera3D camera, Color clearColor, List<GameObject> gameObjects)
         {
             Raylib.ClearBackground(clearColor);
 
             Raylib.BeginMode3D(camera);
 
-            for (int i = 0; i < objects.Count; i++)
+            for (int i = 0; i < gameObjects.Count; i++)
             {
-                if (objects[i].components.Count == 0) continue;
-
-                for (int j = 0; j < objects[i].components.Count; j++)
-                {
-                    if (objects[i].components[j] is not Model) continue;
-
-                    objects[i].components[j].Update();
-                }
+                gameObjects[i].Update();
             }
 
             Raylib.EndMode3D();
+        }
+
+        internal static void Unload()
+        {
+            Raylib.UnloadShader(defaultShader);
         }
     }
 }

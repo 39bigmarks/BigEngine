@@ -3,7 +3,7 @@
     internal static class FrameManager
     {
         public static List<Frame> frames { get; private set; } = [
-            new("New Frame", new(12, 12, 12), [])
+            new("New Frame", clearColor: new(12, 12, 12), gameObjects: [])
             ];
         public static Frame currentFrame { get; private set; } = frames[0];
         

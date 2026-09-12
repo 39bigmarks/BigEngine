@@ -1,41 +1,32 @@
-﻿using BigEngine.Game;
+﻿using BigEngine.Engine;
+using BigEngine.Game;
+using BigEngine.Types;
 using Raylib_cs;
-using Model = BigEngine.Objects.Model;
-using Object = BigEngine.Objects.Object;
 using System.Numerics;
 
 namespace BigEngine
 {
     internal static class BigEngine
     {
-        internal static int windowWidth = 1280;
-        internal static int windowHeight = 720;
-
-        internal static Material defaultMaterial;
-        internal static Shader defaultShader;
+        public static int windowWidth = 1280;
+        public static int windowHeight = 720;
 
         internal static void Main(string[] args)
         {
             Raylib.InitWindow(windowWidth, windowHeight, "BigEngine");
 
-            //Raylib.SetTraceLogLevel(TraceLogLevel.Warning);
-            defaultMaterial = Raylib.LoadMaterialDefault();
+            GameObject suzanne = new("Suzanne", components: []);
+            suzanne.components.Add(new ModelRenderer("resources/models/suzanne.obj", suzanne.transform));
+            
+            FrameManager.currentFrame.Awake();
 
-            defaultShader = Raylib.LoadShader("resources/shaders/default/vert.vert", "resources/shaders/default/frag.frag");
-            defaultMaterial.Shader = defaultShader;
 
-            Raylib_cs.Model mdl = Raylib.LoadModel("resources/models/suzanne.obj");
-            Object suzanne = new("Suzanne", []);
-            suzanne.components.Add(new Model(mdl, suzanne.transform, defaultMaterial));
-
+            // make some test frames
             FrameManager.currentFrame.Name = "Frame 1";
             FrameManager.currentFrame.clearColor = new(12, 12, 12);
-
-            FrameManager.currentFrame.objects.Add(suzanne);
-            FrameManager.CreateFrame(new("Frame 2", new(180, 12, 12), [suzanne]));
-            FrameManager.CreateFrame(new("Frame 3", new(12, 12, 128), []));
-            
-            FrameManager.currentFrame.Start();
+            FrameManager.currentFrame.gameObjects.Add(suzanne);
+            FrameManager.CreateFrame(new("Frame 2", clearColor: new(180, 12, 12), gameObjects: [suzanne]));
+            FrameManager.CreateFrame(new("Frame 3", clearColor: new(12, 12, 128), gameObjects: []));
 
             while (!Raylib.WindowShouldClose())
             {
@@ -55,8 +46,7 @@ namespace BigEngine
 
                 Raylib.EndDrawing();
             }
-            Raylib.UnloadShader(defaultShader);
-
+            Renderer.Unload();
             FrameManager.currentFrame.Unload();
 
             Raylib.CloseWindow();
