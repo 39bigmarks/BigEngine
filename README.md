@@ -1,17 +1,37 @@
 # BigEngine
 BigEngine is a cross-platform, 2D and 3D game engine written in C# and Raylib. A side project I'll hopefully finish one day.
 
-## Features
-- Open Source: Change anything you like.
-- Cross-Platform: Windows, MacOS, Linux (More if you edit it yourself)
-- Uses [Raylib](https://raylib.com/) under the hood
-- 2D and 3D: Supports 2D and 3D project types.
-- VR Support: Good VR Support.
-- Clean UI: A clean and consistent UI across the software.
-- Visual Scripting: A unique take on visual coding inspired by Clickteam Fusion 2.5 and Scratch that is interchangeable with C#.
-- Customizable: Many different options to customize the look and feel of the editor.
-- Extensions: Supports extensions to add to the editor.
-- Lightweight: No setup .msi, no required dependencies, no useless (AI) features. Instantly get it up and running.
+## Planned Features
+- <b>Free and Open Source:</b> Donate by buying it on Steam in the future!
+- <b>Cross-Platform:</b> Editor and builds will work fine on Windows, MacOS, and Linux, not sure about the other ones Raylib supports.
+- <b>Uses Raylib:</b> Uses [Raylib](https://raylib.com/) under the hood
+- <b>Ease of use:</b> Designed for <b>beginner</b> to <b>intermediate</b> developers, but still being as flexible as possible for <b>advanced</b> developers.
+- <b>2D + 3D:</b> Supports 2D and 3D project types.
+- <b>VR Support:</b> Pretty good VR support.
+- <b>Lighting:</b> Several built-in options for lighting:
+  - [Gouraud](https://en.wikipedia.org/wiki/Gouraud_shading): For a nostalgic feel.
+  - [Phong](https://en.wikipedia.org/wiki/Phong_shading): The previous industry standard, to my knowledge.
+  - [Blinn-Phong](https://en.wikipedia.org/wiki/Blinn%E2%80%93Phong_reflection_model): The industry standard rasterizer reflection model.
+  - [PBR](https://en.wikipedia.org/wiki/Physically_based_rendering): Physically based rendering using the <b>Metallic</b> workflow.
+  - [Radiance Cascades](https://radiance-cascades.com/): A new-ish realtime GI technique.<br/>
+  <b>These include the options for both forward and deferred rendering.</b>
+- <b>Post processing:</b> Several built-in options for post processing:
+  - [Bloom](https://en.wikipedia.org/wiki/Bloom_(shader_effect))
+  - [Chromatic aberration](https://en.wikipedia.org/wiki/Chromatic_aberration)
+  - [Color balance](https://en.wikipedia.org/wiki/Color_balance)
+  - [Depth of Field](https://en.wikipedia.org/wiki/Depth_of_field)
+  - [Dithering](https://en.wikipedia.org/wiki/Dither)
+  - [Fisheye lens](https://en.wikipedia.org/wiki/Fisheye_lens)
+  - [Film grain](https://en.wikipedia.org/wiki/Film_grain)
+  - [HSV adjustment](https://en.wikipedia.org/wiki/HSL_and_HSV)
+  - [Pixelization](https://en.wikipedia.org/wiki/Pixelization)
+  - [Color Quantization](https://en.wikipedia.org/wiki/Color_quantization)
+  - [Vignetting](https://en.wikipedia.org/wiki/Vignetting)
+- <b>Consistent GUI:</b> A nice GUI across the software.
+- <b>Visual Scripting:</b> An interesting take on visual scripting inspired by [CTF2.5](https://www.clickteam.com/clickteam-fusion-2-5), interchangeable with C#.
+- <b>Customizable:</b> Several options to change the look/feel of the editor.
+- <b>Extensions:</b> Supports extensions to add to the editor.
+- <b>Lightweight:</b> No setup .msi, no required dependencies, no useless (AI) features. Instantly get it up and running.
 
 ## Setup Instructions
 ### Normal setup
@@ -20,8 +40,6 @@ To start using BigEngine, go to the Releases tab and download the latest zip, ex
 ### Compilation steps coming later.
 
 ---
-
-Thanks for checking it out :)
 
 ### Footnotes
 This project was developed by a self-taught amateur. Expect bad code please.
