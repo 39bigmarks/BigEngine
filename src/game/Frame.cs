@@ -13,10 +13,10 @@ namespace BigEngine.Game
         public List<GameObject> gameObjects { get; private set; } = gameObjects;
 
         // camera at index 0 will be prioritized (unless specified later)
-        public List<Camera3D> cameras { get; private set; } = [
+        public List<Camera3D> cameras = [
             new(){
-                Position = new(3, 3, 7),
-                Target = Vector3.Zero,
+                Position = new(0, 1, 8),
+                Target = new(0, 0, 0),
                 Up = new(0, 1, 0),
                 Projection = CameraProjection.Perspective,
                 FovY = 50f
@@ -43,12 +43,15 @@ namespace BigEngine.Game
         }
         public void Update()
         {
-            if(destroyQueue.Count != 0)
-                for (int i = 0; i < destroyQueue.Count; i++)
-                {
+            //Camera3D c = cameras[0];
+            //c.Position = new(MathF.Sin(BigEngine.time * 4), 1, 5);
+            //cameras[0] = c;
 
+            if(destroyQueue.Count != 0)
+            {
+                for (int i = 0; i < destroyQueue.Count; i++)
                     gameObjects.Remove(destroyQueue[i]);
-                }
+            }
 
             if (cameras.Count > 0)
                 Renderer.Render(cameras[0], clearColor, gameObjects);
@@ -75,10 +78,8 @@ namespace BigEngine.Game
 
         public void Unload()
         {
-            for (int i = 0; i < gameObjects.Count; i++)
-            {
-                gameObjects[i].Unload();
-            }
+            foreach (var obj in gameObjects)
+                obj.Unload();
         }
     }
 }

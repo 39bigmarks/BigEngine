@@ -4,12 +4,15 @@ namespace BigEngine.Types
 {
     internal class GameObject(string name, List<IComponent> components)
     {
+        public bool Enabled { get; set; } = true;
         public string name { get; set; } = name;
         public Transform transform { get; set; } = new();
         public List<IComponent> components { get; set; } = components;
 
         public void Update()
         {
+            if (!Enabled) return;
+
             for (int i = 0; i < components.Count; i++)
                 components[i].Update();
         }
@@ -17,7 +20,7 @@ namespace BigEngine.Types
         public void Unload()
         {
             foreach (var component in components)
-                component.Unload();
+                component.OnUnload();
         }
     }
 }

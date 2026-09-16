@@ -1,40 +1,36 @@
 ﻿using BigEngine.Engine;
-using Raylib_cs;
 using System.Numerics;
-using System.Runtime.InteropServices;
+using Raylib_cs;
 
 namespace BigEngine.Types
 {
-    internal class ModelRenderer(string meshPath, Transform transform) : IComponent
+    internal class ModelRenderer(string meshPath, GameObject parent) : IComponent
     {
         public bool enabled { get; set; } = true;
 
         public string meshPath = meshPath;
-        public List<Material> materials = [ Renderer.GetDefaultMaterial() ];
+        public List<Material> materials = [ Renderer.defaultMaterial ];
 
         public bool loaded { get; private set; } = false;
+
+        public GameObject gameObject { get; } = parent;
 
         private Model model;
 
         public void Awake()
         {
-            Load();
+            OnLoad();
         }
 
-        public void Load()
+        public void OnLoad()
         {
             model = Raylib.LoadModel(meshPath);
-        }
+            loaded = true;
 
-        public void Start()
-        {
-            // SUPER UGLY!!! :(
             unsafe
             {
-                fixed (Material* mats = materials.ToArray())
-                {
-                    model.Materials = mats;
-                }
+                for(int i = 0; i < model.MaterialCount; i++)
+                    model.Materials[i].Shader = Renderer.defaultMaterial.Shader;
             }
         }
 
@@ -49,9 +45,10 @@ namespace BigEngine.Types
             {
                 Vector3 axis;
                 float angle;
-                Raymath.QuaternionToAxisAngle(transform.rotation, &axis, &angle);
 
-                Raylib.DrawModelEx(model, transform.position, axis, angle, transform.scale, Color.White);
+                Raymath.QuaternionToAxisAngle(gameObject.transform.rotation, &axis, &angle);
+                //Raylib.DrawModelEx(model, gameObject.transform.position, axis, angle, gameObject.transform.scale, Color.White);
+                Raylib.DrawModel(model, Vector3.Zero, 1, Color.White);
             }
         }
 
@@ -59,6 +56,12 @@ namespace BigEngine.Types
         {
             loaded = false;
             Raylib.UnloadModel(model);
+
+            unsafe
+            {
+                for (int i = 0; i < model.MaterialCount; i++)
+                    Raylib.UnloadMaterial(model.Materials[i]);
+            }
         }
     }
 }
