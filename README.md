@@ -8,6 +8,7 @@ BigEngine is a cross-platform, 2D and 3D game engine written in C# and Raylib. A
 - <b>Ease of use:</b> Designed for <b>beginner</b> to <b>intermediate</b> developers, but still being as flexible as possible for <b>advanced</b> developers.
 - <b>2D + 3D:</b> Supports 2D and 3D project types.
 - <b>VR Support:</b> Pretty good VR support.
+- <b>Object Layering:</b> Good object organization abilities using layers similar to drawing programs.
 - <b>Lighting:</b> Several built-in options for lighting:
   - [Gouraud](https://en.wikipedia.org/wiki/Gouraud_shading): For a nostalgic feel.
   - [Phong](https://en.wikipedia.org/wiki/Phong_shading): The previous industry standard, to my knowledge.
@@ -27,8 +28,9 @@ BigEngine is a cross-platform, 2D and 3D game engine written in C# and Raylib. A
   - [Pixelization](https://en.wikipedia.org/wiki/Pixelization)
   - [Color Quantization](https://en.wikipedia.org/wiki/Color_quantization)
   - [Vignetting](https://en.wikipedia.org/wiki/Vignetting)
-- <b>Consistent GUI:</b> A nice GUI across the software.
-- <b>Visual Scripting:</b> An interesting take on visual scripting inspired by [CTF2.5](https://www.clickteam.com/clickteam-fusion-2-5), interchangeable with C#.
+- <b>Good GUI:</b> A nice, slick GUI across the software, while not being a cluttered nightmare for beginners.
+- <b>Visual Scripting:</b> An interesting take on visual scripting inspired by [CTF2.5](https://www.clickteam.com/clickteam-fusion-2-5), also interchangeable with C#.
+- <b>Shader nodes:</b> Easy to use, [Blender](https://www.blender.org/)-like shader nodes which generate object/post processing shaders, also interchangeable with GLSL.
 - <b>Customizable:</b> Several options to change the look/feel of the editor.
 - <b>Extensions:</b> Supports extensions to add to the editor.
 - <b>Lightweight:</b> No setup .msi, no required dependencies, no useless (AI) features. Instantly get it up and running.
