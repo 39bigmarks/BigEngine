@@ -13,11 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="src\editor\framework\" />
-    <Folder Include="src\editor\debugger\" />
+    <Folder Include="src\editor\ui framework\" />
     <Folder Include="src\editor\building\" />
     <Folder Include="src\editor\extensions\" />
-    <Folder Include="src\ext\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,31 +40,40 @@
     <None Update="resources\models\suzanne.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="resources\shaders\default\blinn-phong\blinn-phong_frag.glsl">
+    <None Update="resources\shaders\default\Blinn_Phong\Blinn_Phong_frag.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="resources\shaders\default\blinn-phong\blinn-phong_vert.glsl">
+    <None Update="resources\shaders\default\Blinn_Phong\Blinn_Phong_vert.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="resources\shaders\default\basic_frag.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="resources\shaders\default\gouraud\gouraud_frag.glsl">
+    <None Update="resources\shaders\default\Gouraud\Gouraud_frag.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="resources\shaders\default\gouraud\gouraud_vert.glsl">
+    <None Update="resources\shaders\default\Gouraud\Gouraud_vert.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="resources\shaders\default\phong\phong_frag.glsl">
+    <None Update="resources\shaders\default\Phong\Phong_frag.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="resources\shaders\default\phong\phong_vert.glsl">
+    <None Update="resources\shaders\default\Phong\Phong_vert.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="resources\shaders\default\basic_vert.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="resources\shaders\post process\fisheye.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\shaders\post process\srgb.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\shaders\post process\base.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\textures\rough1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -14,7 +14,7 @@ uniform vec3 viewPos;
 uniform vec3 ambientColor;
 
 struct Material{
-    float roughness;
+    sampler2D roughness;
     float specular;
 };
 
@@ -31,30 +31,32 @@ out vec4 finalColor;
 void main()
 {
     vec4 texelColor = texture(texture0, fragTexCoord);
-    
+    vec3 color = (texelColor*colDiffuse*fragColor).xyz;
+
     vec3 result;
     for(int i = 0; i < lights.length; i++){
-        vec3 lightColor = lights[i].color * (lights[i].intensity / 2);
+        vec3 lightColor = lights[i].color * lights[i].intensity;
 
         // ambient
         vec3 ambient = ambientColor * lightColor;
-  	
-        // diffuse 
-        vec3 norm = normalize(normal);
+        // diffuse
+        //TODO: make these work with the roughness map
         vec3 lightDir = normalize(lights[i].position - position);
-        float diff = max(dot(norm, lightDir), 0.0);
+        vec3 norm = normalize(normal);
+        float diff = max(dot(lightDir, norm), 0.0);
         vec3 diffuse = diff * lightColor;
-    
         // specular
-        float specularStrength = 0.5;
         vec3 viewDir = normalize(viewPos - position);
         vec3 reflectDir = reflect(-lightDir, norm);
-        float smoothness = 2/pow(material.roughness, 4) - 2;
-        float specularAdjustment = 1.0 - material.roughness;
-        float spec = pow(max(dot(viewDir, reflectDir), 0.0), smoothness);
-        vec3 specular = material.specular * specularAdjustment * spec * lightColor;
+        vec3 halfwayDir = normalize(lightDir + viewDir);
 
-        result += (ambient+diffuse+specular)*(texelColor*colDiffuse+fragColor).xyz;
+        // float smoothness = 2/pow(material.roughness, 4) - 2;
+        // float specularAdjustment = 1.0 - material.roughness;
+
+        float spec = pow(max(dot(norm, halfwayDir), 0.0), 32.);
+        vec3 specular = lightColor * (spec * material.specular);
+
+        result += (ambient+diffuse+specular) * color;
     }
 
     finalColor = vec4(result, 1.0);

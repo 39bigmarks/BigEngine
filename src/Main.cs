@@ -2,7 +2,6 @@
 using BigEngine.Game;
 using BigEngine.Types;
 using Raylib_cs;
-using System.Numerics;
 
 namespace BigEngine
 {
@@ -10,95 +9,144 @@ namespace BigEngine
     {
         public static int windowWidth = 1280;
         public static int windowHeight = 720;
-        public static float time = 0;
-
-        public static Texture2D lightGizmo;
+        public static float timer = 0;
+        public static bool srgb = true;
 
         internal static void Main(string[] args)
         {
-            //Raylib.SetTraceLogLevel(TraceLogLevel.Warning);
+            Raylib.SetTraceLogLevel(TraceLogLevel.Warning);
 
+            Raylib.SetConfigFlags(ConfigFlags.VSyncHint);
             Raylib.InitWindow(windowWidth, windowHeight, "BigEngine");
-            lightGizmo = Raylib.LoadTexture("resources/icons/light.png");
-            Renderer.Init();
 
-            GameObject suzanne = new("Suzanne", components: []);
-            suzanne.components.Add(new ModelRenderer("resources/models/smoothmonkey.obj", suzanne));
+            Raylib.SetTargetFPS(60);
 
-            GameObject room = new("room", components: []);
-            room.components.Add(new ModelRenderer("resources/models/room.obj", room));
+            Prop3D room = new("resources/models/room.obj");
+            Prop3D suzanne = new("resources/models/smoothmonkey.obj");
+            PointLight light1 = new(Color.Beige)
+            {
+                position = new(0, 0, 0),
+            };
+            PointLight light2 = new(Color.Green)
+            {
+                position = new(3, 3, 3),
+            };
 
-            // make some test frames
-            FrameManager.currentFrame.Name = "Frame 1";
-            FrameManager.currentFrame.clearColor = new(12, 12, 12);
-            FrameManager.currentFrame.gameObjects.Add(suzanne);
-            
-            List<PointLight> lights = [
-                new()
-                {
-                    color = new(84, 122, 255),
-                    strength = 0.5f,
-                    position = new(1.5f, 1.5f, 0)
-                }, new()
-                {
-                    color = new(230, 107, 0),
-                    strength = 0.7f,
-                    position = new(-1.5f, 0.25f, 0)
-                }, new()
-                {
-                    color = new(255, 0, 0),
-                    strength = 1.8f,
-                    position = new(-1.5f, 0.75f, -3)
-                }, new()
-                {
-                    color = new(255, 255, 255),
-                    strength = 0.9f,
-                    position = new(0, 5, 0)
-                }
-            ];
+            Frame frame1 = new("Frame 1", new(85, 12, 12))
+            {
+                objects = [
+                    new PointLight(light1){
+                        position = new(0, 1, 0),
+                        intensity = 1f
+                    },
+                    new Prop3D(room){
+                        transform = new(){
+                            position = new(0, 0, 0)
+                        }
+                    }
+                ],
+                cameras = [
+                    new(){
+                        Position = new(3, 2, 7),
+                        Target = new(0, 1, 0),
+                        Up = new(0, 1, 0),
+                        Projection = CameraProjection.Perspective,
+                        FovY = 55f
+                    }
+                ]
+            };
+            Frame frame2 = new("Frame 2", new(70, 12, 85))
+            {
+                objects = [
+                    suzanne,
+                    new PointLight(light2){
+                        position = new(3, 3, 3)
+                    }
+                ],
+                cameras = [
+                    new(){
+                        Position = new(-3, 1, 7),
+                        Target = new(0, 0, 0),
+                        Up = new(0, 1, 0),
+                        Projection = CameraProjection.Perspective,
+                        FovY = 55f
+                    }
+                ]
+            };
+            Frame frame3 = new("Frame 3", new(70, 56, 85))
+            {
+                objects = [
+                    new PointLight(light2){
+                        position = new(0, 0, 0)
+                    },
+                    new Prop3D(room){
+                        transform = new(){
+                            position = new(0, 2, 0)
+                        }
+                    },
+                    new Prop3D(suzanne){
+                        transform = new(){
+                            position = new(3, 0, 0),
+                            scale = new(0.5f)
+                        }
+                    },
+                    new Prop3D(suzanne){
+                        transform = new(){
+                            position = new(-3, 0, 0),
+                            scale = new(0.5f)
+                        }
+                    }
+                ],
+                cameras = [
+                    new(){
+                        Position = new(-3, 2, 7),
+                        Target = new(0, 1, 0),
+                        Up = new(0, 1, 0),
+                        Projection = CameraProjection.Perspective,
+                        FovY = 55f
+                    }
+                ]
+            };
 
-            FrameManager.currentFrame.CreateObject(new("Light 0", [lights[0]]));
-            FrameManager.currentFrame.CreateObject(new("Light 1", [lights[1]]));
-            FrameManager.currentFrame.CreateObject(new("Light 2", [lights[2]]));
-            FrameManager.currentFrame.CreateObject(new("Light 3", [lights[3]]));
+            FrameManager.CreateFrame(frame1);
+            FrameManager.CreateFrame(frame2);
+            FrameManager.CreateFrame(frame3);
 
-            FrameManager.currentFrame.Awake();
+            FrameManager.LoadFrame(FrameManager.currentFrame, startup: true);
 
-            // created frames will have a camera by default
-            // maybe change system to use a default frame file so you can create an empty frame too?
-            FrameManager.CreateFrame(new("Frame 2", clearColor: new(180, 12, 12), gameObjects: [room]));
-            FrameManager.CreateFrame(new("Frame 3", clearColor: new(12, 12, 128), gameObjects: [suzanne, room]));
-            FrameManager.CreateFrame(new("Frame 4", clearColor: new(128, 128, 180), gameObjects: []));
-
-            FrameManager.LoadFrame(FrameManager.currentFrame);
-
+            Camera3D cam = FrameManager.frames[2].cameras[0];
 
             while (!Raylib.WindowShouldClose())
             {
-                time += Raylib.GetFrameTime();
+                cam.Position = new(MathF.Sin(timer / 5) * 3.5f, 1.67f, MathF.Cos(timer / 5) * 3.5f);
+                timer += Raylib.GetFrameTime();
 
                 if (Raylib.IsKeyPressed(KeyboardKey.One))
                     FrameManager.LoadFrame(FrameManager.frames[0]);
-
+                
                 if (Raylib.IsKeyPressed(KeyboardKey.Two))
                     FrameManager.LoadFrame(FrameManager.frames[1]);
                 
                 if (Raylib.IsKeyPressed(KeyboardKey.Three))
                     FrameManager.LoadFrame(FrameManager.frames[2]);
 
-                if (Raylib.IsKeyPressed(KeyboardKey.Four))
-                    FrameManager.LoadFrame(FrameManager.frames[3]);
-
-                Raylib.BeginDrawing();
-                
                 FrameManager.currentFrame.Update();
-                Raylib.DrawTextureRec(Renderer.renderTex.Texture, Renderer.textureRec, Vector2.Zero, Color.White);
 
-                Raylib.EndDrawing();
+                FrameManager.currentFrame.cameras[0] = cam;
+                if(FrameManager.currentFrame.Name == FrameManager.frames[0].Name)
+                {
+                    //((PointLight)FrameManager.currentFrame.objects[0]).position.X = 0;
+                    //((PointLight)FrameManager.currentFrame.objects[0]).position.Y = MathF.Sin(timer) * 3;
+                    //((PointLight)FrameManager.currentFrame.objects[0]).position.Z = 0;
+                }
+                if(FrameManager.currentFrame.Name == FrameManager.frames[2].Name)
+                {
+                    ((PointLight)FrameManager.currentFrame.objects[0]).position.X = 0;
+                    ((PointLight)FrameManager.currentFrame.objects[0]).position.Y = MathF.Sin(timer * 5);
+                    ((PointLight)FrameManager.currentFrame.objects[0]).position.Z = 0;
+                }
             }
-
-            Renderer.Unload();
-            FrameManager.currentFrame.Unload();
+            FrameManager.UnloadFrame();
 
             Raylib.CloseWindow();
         }

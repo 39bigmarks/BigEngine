@@ -1,70 +1,71 @@
-﻿using GameObject = BigEngine.Types.GameObject;
-using BigEngine.Engine;
+﻿using BigEngine.Engine;
+using BigEngine.Types;
 using Raylib_cs;
 using System.Numerics;
 
 namespace BigEngine.Game
 {
-    internal class Frame(string name, Color clearColor, List<GameObject> gameObjects)
+    internal class Frame
     {
-        public string Name = name;
-        public Color clearColor = clearColor;
+        public string Name;
+        public Color clearColor;
+        public List<IObject> objects = [];
+        public List<Camera3D> cameras = [];
+        private List<Renderer> renderers = [];
+        //public static Shader fisheyeShader = Raylib.LoadShader(null, "resources/shaders/post process/fisheye.glsl");
+        //public static int timeLoc;
 
-        public List<GameObject> gameObjects { get; private set; } = gameObjects;
+        // add destroy queue later
 
-        // camera at index 0 will be prioritized (unless specified later)
-        public List<Camera3D> cameras = [
-            new(){
-                Position = new(0, 1, 8),
-                Target = new(0, 0, 0),
-                Up = new(0, 1, 0),
-                Projection = CameraProjection.Perspective,
-                FovY = 50f
-            }
-        ];
-
-        private List<GameObject> destroyQueue = [];
-        
-        public void Awake()
+        public Frame(string name, Color clearColor)
         {
-            for (int i = 0; i < gameObjects.Count; i++)
+            Name = name;
+            this.clearColor = clearColor;
+        }
+
+        public void Load()
+        {
+            //timeLoc = Raylib.GetShaderLocation(fisheyeShader, "time");
+
+            if(cameras.Count > 0)
             {
-                for (int j = 0; j < gameObjects[i].components.Count; j++)
-                    gameObjects[i].components[j].Awake();
+                for (int i = 0; i < objects.Count; i++)
+                    objects[i].Load();
+            
+                renderers = [ new Renderer(cameras[0], new Rectangle(new(0, 0), new(BigEngine.windowWidth, BigEngine.windowHeight))) ];
+                for (int i = 0; i < renderers.Count; i++)
+                    renderers[i].Load();
             }
         }
-        public void Start()
-        {
-            for (int i = 0; i < gameObjects.Count; i++)
-            {
-                for (int j = 0; j < gameObjects[i].components.Count; j++)
-                    gameObjects[i].components[j].Start();
-            }
-        }
+
         public void Update()
         {
-            //Camera3D c = cameras[0];
-            //c.Position = new(MathF.Sin(BigEngine.time * 4), 1, 5);
-            //cameras[0] = c;
-
-            if(destroyQueue.Count != 0)
+            if (cameras.Count != 0)
             {
-                for (int i = 0; i < destroyQueue.Count; i++)
-                    gameObjects.Remove(destroyQueue[i]);
-            }
+                // render camera 0
+                renderers[0].camera = cameras[0];
+                renderers[0].DrawToRenderTexture();
 
-            if (cameras.Count > 0)
-                Renderer.Render(cameras[0], clearColor, gameObjects);
-            //else
-            //{
-            // throw some error
-            //}
+                Raylib.BeginDrawing();
+                
+                //if(BigEngine.srgb) Raylib.BeginShaderMode(fisheyeShader);
+                //Raylib.SetShaderValue(fisheyeShader, timeLoc, BigEngine.timer, ShaderUniformDataType.Float);
+                Raylib.DrawTextureRec(renderers[0].renderTexture.Texture, renderers[0].rec, renderers[0].rec.Position, Color.White);
+                //if(BigEngine.srgb) Raylib.EndShaderMode();
+                Raylib.EndDrawing();
+            }
+            else
+            {
+                Raylib.DrawTextPro(Raylib.GetFontDefault(), "No cameras available.", new Vector2(BigEngine.windowWidth / 2 - Raylib.MeasureText("No cameras available.", 28) / 2, BigEngine.windowHeight / 2 - 28), Vector2.Zero, 0, 28, 0.5f, Color.White);
+            }
         }
         
-        public void CreateObject(GameObject obj)
+        public void SwitchToCamera(Camera3D camera)
         {
-            gameObjects.Add(obj);
+            cameras.Remove(camera);
+            cameras.Insert(0, camera);
         }
+
         public void CreateCamera(Camera3D camera, bool makePrimary = false)
         {
             if (makePrimary)
@@ -78,8 +79,21 @@ namespace BigEngine.Game
 
         public void Unload()
         {
-            foreach (var obj in gameObjects)
-                obj.Unload();
+            for (int i = 0; i < objects.Count; i++)
+                objects[i].Unload();
+
+            for (int i = 0; i < renderers.Count; i++)
+                renderers[i].Unload();
+        }
+
+        public bool Equals(Frame frame)
+        {
+            bool ret = true;
+            ret &= Name == frame.Name;
+            ret &= clearColor == frame.clearColor;
+            ret &= objects == frame.objects;
+            ret &= cameras == frame.cameras;
+            return ret;
         }
     }
 }
