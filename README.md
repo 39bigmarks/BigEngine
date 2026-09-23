@@ -8,7 +8,7 @@ BigEngine is a cross-platform, 2D and 3D game engine written in C# and Raylib. A
 
 
 ## Planned Features
-<p style="font-size:2em;">✔ = implemented<br>❌ = not yet implemented</p>
+✔ = implemented<br>❌ = not yet implemented
 
 - ✔ <b>Free and Open Source:</b> Donate by buying it on Steam in the future!
 - ✔ <b>Cross-Platform:</b> Editor and builds will work fine on Windows, MacOS, and Linux, not sure about the other ones Raylib supports.
@@ -17,6 +17,7 @@ BigEngine is a cross-platform, 2D and 3D game engine written in C# and Raylib. A
 - ✔ <b>2D + 3D:</b> Supports 2D and 3D project types.
 - ❌ <b>VR Support:</b> Pretty good VR support.
 - ❌ <b>Object Layering:</b> Good object organization abilities using layers similar to drawing programs.
+- ❌ <b>Audio Management:</b> Audio management includes a channel mixer and built-in audio effects.
 - ❌ <b>Lighting:</b> Several built-in options for lighting:
   - ❌ [Gouraud](https://en.wikipedia.org/wiki/Gouraud_shading): For a nostalgic feel.
   - ✔ [Phong](https://en.wikipedia.org/wiki/Phong_shading): The previous industry standard, to my knowledge.
