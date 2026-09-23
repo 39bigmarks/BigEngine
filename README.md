@@ -40,6 +40,7 @@ BigEngine is a cross-platform, 2D and 3D game engine written in C# and Raylib. A
 - ❌ <b>Visual Scripting:</b> An interesting take on visual scripting inspired by [CTF2.5](https://www.clickteam.com/clickteam-fusion-2-5), also interchangeable with C#.
 - ❌ <b>Shader nodes:</b> Easy to use, [Blender](https://www.blender.org/)-like shader nodes which generate object/post processing shaders, also interchangeable with GLSL.
 - ❌ <b>Customizable:</b> Several options to change the look/feel of the editor.
+- ❌ <b>Basic Modelling Tools:</b> A basic menu to create 3D meshes.
 - ❌ <b>Extensions:</b> Supports extensions to add to the editor.
 - ✔ <b>Lightweight:</b> No setup .msi, no required dependencies, no useless (AI) features. Instantly get it up and running.
 
