@@ -4,7 +4,7 @@
 
 # BigEngine
 BigEngine is a cross-platform, 2D and 3D game engine written in C# and Raylib. A side project I'll hopefully finish one day.</p>
-![Static Badge](https://img.shields.io/badge/Status-Incomplete-red)
+![Static Badge](https://img.shields.io/badge/Status-Beginning%20Phase-blue)
 
 
 ## Planned Features
