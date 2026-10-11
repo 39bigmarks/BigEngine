@@ -18,4 +18,4 @@ intersphinx_mapping = {
 }
 intersphinx_disabled_domains = ['std']
 
-html_theme = "sphinx_rtd_theme"
+html_theme = 'sphinx_rtd_theme'
